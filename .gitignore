@@ -1,0 +1,8 @@
+venv
+.idea
+*.gpkg
+*.dbf
+*.cpg
+*.prj
+*.shp
+*.shx
