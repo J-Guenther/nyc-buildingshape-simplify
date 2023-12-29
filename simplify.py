@@ -40,7 +40,6 @@ def cleanup_vertices(geometry):
         if len(filtered_coords) <= 4:
             return geometry
 
-        # Create a new polygon with the filtered vertices
         return Polygon(filtered_coords)
     else:
         return geometry  # Return unchanged for other geometry types
@@ -59,7 +58,6 @@ def apply_alpha_hull(geometry):
 if __name__ == '__main__':
     file_path = 'result.shp'
 
-    # Read the GeoPackage file using GeoPandas
     data = gpd.read_file(file_path)
     data['geometry'] = data['geometry'].apply(simplify_geometry)
 
