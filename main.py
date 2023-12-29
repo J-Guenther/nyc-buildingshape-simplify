@@ -46,5 +46,8 @@ if __name__ == '__main__':
     # 'result_df' now contains separate GeoDataFrames for each dissolved polygon based on derived 'BBL'
     print(exploded_rows)
 
-    exploded_rows.to_file("result.shp")
+    # Only Manhattan
+    gdf_filtered = exploded_rows[exploded_rows['DISTRICT'] == '1']
+
+    gdf_filtered.to_file("result.shp")
 

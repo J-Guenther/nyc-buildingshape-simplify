@@ -63,15 +63,15 @@ if __name__ == '__main__':
     data = gpd.read_file(file_path)
     data['geometry'] = data['geometry'].apply(simplify_geometry)
 
-    # modified_geometries = [cleanup_vertices(geometry) for geometry in data.geometry]
+    modified_geometries = [cleanup_vertices(geometry) for geometry in data.geometry]
 
-    modified_geometries = []
-    for index, row in data.iterrows():
-        modified_geom = cleanup_vertices(row['geometry'])
-        if not row['NAME']:
-            modified_geom = apply_alpha_hull(row['geometry'])
-
-        modified_geometries.append(modified_geom)
+    # modified_geometries = []
+    # for index, row in data.iterrows():
+    #     modified_geom = cleanup_vertices(row['geometry'])
+    #     if not row['NAME']:
+    #         modified_geom = apply_alpha_hull(row['geometry'])
+    #
+    #     modified_geometries.append(modified_geom)
 
     # Create a new GeoDataFrame with the modified geometries
     modified_df = gpd.GeoDataFrame(data.drop(columns='geometry'), geometry=modified_geometries, crs=data.crs)
