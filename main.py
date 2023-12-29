@@ -40,11 +40,8 @@ if __name__ == '__main__':
         # Append dissolved polygons to the result GeoDataFrame
         result_df = pd.concat([result_df, dissolved_polygons], ignore_index=True)
 
+    # Multipolygons to Singlepolygons
     exploded_rows = result_df.explode()
-
-    # filtered_result = result_df[result_df['DISTRICT'] != '1']
-    #
-    # final_df = pd.concat([filtered_result, exploded_rows], ignore_index=True)
 
     # 'result_df' now contains separate GeoDataFrames for each dissolved polygon based on derived 'BBL'
     print(exploded_rows)

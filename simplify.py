@@ -1,6 +1,7 @@
 import math
 import geopandas as gpd
 from shapely.geometry import Polygon
+import alphashape
 
 
 def simplify_geometry(geometry):
@@ -45,6 +46,16 @@ def cleanup_vertices(geometry):
         return geometry  # Return unchanged for other geometry types
 
 
+def apply_alpha_hull(geometry):
+    if isinstance(geometry, Polygon):
+        coords = list(geometry.exterior.coords)
+        alpha_shape = alphashape.alphashape(coords, 0)
+        if alpha_shape.is_empty:
+            return geometry
+        else:
+            return alpha_shape
+
+
 if __name__ == '__main__':
     file_path = 'result.shp'
 
@@ -56,10 +67,10 @@ if __name__ == '__main__':
 
     modified_geometries = []
     for index, row in data.iterrows():
-        if row['DISTRICT'] == '1':
-            modified_geom = cleanup_vertices(row['geometry'])  # Apply cleanup_vertices to '1' districts
-        else:
-            modified_geom = row['geometry'].convex_hull  # Use convex hull for other districts
+        modified_geom = cleanup_vertices(row['geometry'])
+        if not row['NAME']:
+            modified_geom = apply_alpha_hull(row['geometry'])
+
         modified_geometries.append(modified_geom)
 
     # Create a new GeoDataFrame with the modified geometries
